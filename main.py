@@ -22,6 +22,10 @@ pygame.time.set_timer(timer, 100)
 player = Personaje(ANCHO_VENTANA / 2, ALTO_VENTANA - 200, 200, 200)
 lista_donas = crear_lista_donas(20)
 
+jump = False
+jumpCount = 0
+jumpMax = 15
+
 # LOGICA DEL JUEGO
 flag_run = True
 while flag_run:
@@ -36,12 +40,40 @@ while flag_run:
             for dona in lista_donas:
                 dona.update()
 
+        if evento.type == pygame.KEYDOWN and pygame.K_UP:
+            jump = True
+            jumpCount = jumpMax
+
     lista_teclas = pygame.key.get_pressed()
 
     if lista_teclas[pygame.K_LEFT]:
-        player.update(-2)
+        player.modificar_eje_x(-2)
     if lista_teclas[pygame.K_RIGHT]:
-        player.update(2)
+        player.modificar_eje_x(2)
+    if lista_teclas[pygame.K_UP]:
+        player.isJump = True
+
+    if lista_teclas[pygame.K_ESCAPE]:
+        lista_eventos.append[pygame.QUIT]
+
+
+    jumpMax = 10
+    if jump == True:
+        player.y -= jumpCount
+        if jumpCount > -jumpMax:
+            jumpCount -= 1
+        else:
+            jump = False 
+
+    # jumpMax = 10
+    # if jump:
+    #     y -= jumpCount
+    #     if jumpCount > -jumpMax:
+    #         jumpCount -= 1
+    #     else:
+    #         jump = False 
+
+
 
     # VOLCAR CAMBIOS
     ventana_ppal.fill(colores.BLANCO)
